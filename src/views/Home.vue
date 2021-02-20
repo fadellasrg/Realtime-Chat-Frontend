@@ -55,25 +55,25 @@
     </div>
   </div> -->
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4 col-5">
+    <div class="row justify-content-center">
+      <div class="col-md-4 col-sm-5 col-12">
         <!--  -->
-        <div class="row mt-4">
+        <div class="row mt-4 justify-content-center">
           <div id="textTitle" class="col-md-5 col-6 blueText">
             Telegram
           </div>
-          <form class="col-md-6 col-12 form-inline">
+          <form class="col-md-6 col-12">
             <button class="btnIcon">
               <b-icon
                 @click="onLogout()"
-                class="icon blueText ml-5"
+                class="icon blueText mt-2"
                 icon="box-arrow-right"
                 aria-hidden="true"
               ></b-icon>
             </button>
               <b-icon
                 @click="profile()"
-                class="icon blueText ml-4"
+                class="icon blueText ml-3"
                 icon="card-text"
                 aria-hidden="true"
               ></b-icon>
@@ -106,21 +106,21 @@
           </form>
           <div id="btnBlue" class="row text-center ml-2">
             <button
-              class="col-md-2"
+              class="col-md-2 col-2"
               :class="clicked ? 'blue' : 'white'"
               @click="clicked = !clicked"
             >
               All
             </button>
             <button
-              class="col-md-4"
+              class="col-md-4 col-4"
               :class="clicked2 ? 'blue' : 'white'"
               @click="clicked2 = !clicked2"
             >
               Important
             </button>
             <button
-              class="col-md-4"
+              class="col-md-4 col-4"
               :class="clicked3 ? 'blue' : 'white'"
               @click="clicked3 = !clicked3"
             >
@@ -132,15 +132,15 @@
             :key="i"
             @click="getListChat(item.id, item.name, item.image)"
           >
-            <div class="row mt-3 ml-2">
-              <div class="col-md-3 col-4">
+            <div class="row mt-3 ml-3">
+              <div class="col-lg-2 col-md-3 col-sm-4 col-3">
                 <img
                   class="tagImg"
                   :src="`${serverURL}/images/${item.image}`"
                   :alt="item.name"
                 />
               </div>
-              <div class="col-md-5 col-5">
+              <div class="col-md-5 col-sm-7 col-5 ml-2">
                 <div style="font-weight: bold; font-size: 18px;">{{ item.name }}</div>
                 <div class="blueText" style="font-size: 16px;">{{item.bio}}</div>
               </div>
@@ -148,12 +148,14 @@
           </div>
         </div>
       </div>
-      <div style="position: relative; background: #FAFAFA;" class="col-md-8 col-sm-6 col-8">
+      <div style="position: relative; background: #FAFAFA;" class="col-md-8 col-sm-7 col-12">
         <!--  -->
         <div class="row">
-          <div class="col-md-12 col-6 p-3" style="background: white;">
+          <div class="col-md-12 col-12 p-3" style="background: white;">
             <div class="row">
-              <div class="col-md-1">
+              <div class="col-lg-1 col-md-2 col-sm-2 col-2">
+                <div v-if="to_image===undefined"></div>
+                <div v-else>
                 <router-link to="/friend">
                   <img
                     class="tagImg"
@@ -161,8 +163,10 @@
                     alt=""
                   />
                 </router-link>
+
+                </div>
               </div>
-              <div class="col-md-2 ml-2 uName">
+              <div class="col-md-2 col-sm-4 col-4 ml-2 uName">
                 <p>{{ to }}</p>
               </div>
             </div>
@@ -192,7 +196,7 @@
             </div>
           </div>
         </div>
-        <!-- <div @click="filter" v-else>Nothing</div> -->
+        <div class="elseMsg" v-else>Please select a chat to start messaging</div>
         <!--  -->
         <!-- <div v-if="resGetListChat()"> -->
           <form style="position: fixed; bottom: 0;" @submit.prevent="sendMsg()" class="form-inline">
@@ -237,13 +241,15 @@ export default {
       getUserName: 'auth/getName',
       getRoom: 'auth/getRoomId',
       getIdUser: 'auth/getIdUsers',
-      to_id: 'auth/getToId'
+      to_id: 'auth/getToId',
+      userList: 'auth/getUserList'
     })
   },
   methods: {
     ...mapActions({
       actionLogout: 'auth/logout',
-      actionToId: 'auth/friendDetail'
+      actionToId: 'auth/friendDetail',
+      actionUser: 'auth/listUsers'
     }),
     onLogout () {
       this.actionLogout().then(response => {
@@ -288,6 +294,11 @@ export default {
       this.socket.emit('send-message', data)
       this.text = ''
     },
+    // addFriend () {
+    //   const data = {
+
+    //   }
+    // },
     sendBroadcast () {
       const data = {
         from: this.getIdUser,
@@ -318,6 +329,7 @@ export default {
     this.resGetListUser()
     this.getListChat()
     this.resGetListChat()
+    this.actionUser()
     // this.resBroadcast()
   }
 }
@@ -345,12 +357,10 @@ export default {
 }
 #inputAdd {
   width: 70%;
-  /* margin-left: 20px; */
   border: none;
   outline: none;
 }
 .iconPlus {
-  /* margin-left: 4px; */
   height: 40px;
   width: 40px;
 }
@@ -417,5 +427,12 @@ export default {
   margin-bottom: 20px;
   outline: none;
   border: none;
+}
+.elseMsg{
+  color: #848484;
+  position: inherit;
+  display: flex;
+  justify-content: center;
+  top: 28%;
 }
 </style>

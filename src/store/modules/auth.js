@@ -7,8 +7,12 @@ const moduleAuth = {
       room_id: localStorage.getItem('room_id') || '',
       id_user: localStorage.getItem('id_user') || '',
       name: localStorage.getItem('name') || '',
+      // room_id: '',
+      // id_user: '',
+      // name: '',
       detailUser: {},
-      to_id: ''
+      to_id: '',
+      stateUsers: []
     }
   },
   mutations: {
@@ -29,6 +33,9 @@ const moduleAuth = {
     },
     setToId (state, payload) {
       state.to_id = payload
+    },
+    setListUsers (state, payload) {
+      state.stateUsers = payload
     }
   },
   actions: {
@@ -89,6 +96,13 @@ const moduleAuth = {
     },
     friendDetail (context, data) {
       context.commit('setToId', data)
+    },
+    listUsers (context) {
+      axios.get('http://localhost:4000/api/users', { headers: { token: context.rootState.auth.token } }).then((response) => {
+        context.commit('setListUsers', response.data.data)
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   },
   getters: {
@@ -109,6 +123,9 @@ const moduleAuth = {
     },
     getToId (state) {
       return state.to_id
+    },
+    getUserList (state) {
+      return state.stateUsers
     }
   }
 }
