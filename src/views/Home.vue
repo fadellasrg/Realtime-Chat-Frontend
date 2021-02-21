@@ -85,12 +85,14 @@
         <div v-show="status === false">
           <form class="form-inline mt-5 ml-4">
             <b-icon
+              @click="action()"
               style="color: #848484;"
               class="icon iconSearch"
               icon="search"
               aria-hidden="true"
             ></b-icon>
             <input
+              v-model="to"
               id="inputAdd"
               type="text"
               class="form-control"
@@ -98,6 +100,7 @@
             />
             <!-- <button class="btnIcon"> -->
               <b-icon
+                @click="addFriend()"
                 class="icon blueText iconPlus"
                 icon="plus"
                 aria-hidden="true"
@@ -127,11 +130,25 @@
               Unread
             </button>
           </div>
-          <div
-            v-for="(item, i) in users"
-            :key="i"
-            @click="getListChat(item.id, item.name, item.image)"
-          >
+          <div v-if="tampil === true">
+            <div v-for="(item, i) in friends" :key="i" @click="getListChat(item.id, item.name, item.image)">
+              <div class="row mt-3 ml-3">
+              <div class="col-lg-2 col-md-3 col-sm-4 col-3">
+                <img
+                  class="tagImg"
+                  :src="`${serverURL}/images/${item.image}`"
+                  :alt="item.name"
+                />
+              </div>
+              <div class="col-md-5 col-sm-7 col-5 ml-2">
+                <div style="font-weight: bold; font-size: 18px;">{{ item.name }}</div>
+                <div class="blueText" style="font-size: 16px;">{{item.bio}}</div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div v-else>
+          <div v-for="(item, i) in users" :key="i" @click="getListChat(item.id, item.name, item.image)">
             <div class="row mt-3 ml-3">
               <div class="col-lg-2 col-md-3 col-sm-4 col-3">
                 <img
@@ -145,6 +162,7 @@
                 <div class="blueText" style="font-size: 16px;">{{item.bio}}</div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -196,7 +214,7 @@
             </div>
           </div>
         </div>
-        <div class="elseMsg" v-else>Please select a chat to start messaging</div>
+        <div class="elseMsg" v-else>Please select a chat and type your message to start messaging</div>
         <!--  -->
         <!-- <div v-if="resGetListChat()"> -->
           <form style="position: fixed; bottom: 0;" @submit.prevent="sendMsg()" class="form-inline">
@@ -223,6 +241,7 @@ export default {
       socket: io('http://localhost:4000'),
       text: '',
       users: [],
+      friends: [],
       chat: [],
       to: '',
       // to_id: '',
@@ -233,7 +252,8 @@ export default {
       clicked2: false,
       clicked3: false,
       to_image: '',
-      status: false
+      status: false,
+      tampil: false
     }
   },
   computed: {
@@ -294,11 +314,27 @@ export default {
       this.socket.emit('send-message', data)
       this.text = ''
     },
-    // addFriend () {
-    //   const data = {
-
-    //   }
-    // },
+    addFriend () {
+      const data = {
+        id_user: this.getIdUser,
+        id_friend: this.to_id
+      }
+      this.socket.emit('add-friend', data)
+      this.$router.go('/home')
+    },
+    getListFriends () {
+      this.socket.emit('get-list-friends', this.getIdUser, this.getRoom)
+    },
+    resGetListFriend () {
+      this.socket.on('res-get-list-friends', friends => {
+        this.friends = friends
+      })
+    },
+    action () {
+      this.tampil = !this.tampil
+      // this.getListFriends()
+      // this.resGetListFriend()
+    },
     sendBroadcast () {
       const data = {
         from: this.getIdUser,
@@ -329,6 +365,8 @@ export default {
     this.resGetListUser()
     this.getListChat()
     this.resGetListChat()
+    this.getListFriends()
+    this.resGetListFriend()
     this.actionUser()
     // this.resBroadcast()
   }

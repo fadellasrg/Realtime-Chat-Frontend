@@ -14,18 +14,21 @@
           <div class="col-md-3 col-3 mt-4 mr-2">
             <img class="imgProfile" :src="`${serverURL}/images/${item.image}`" alt="">
           </div>
-          <div class="name col-md-5 col-5 mt-5">
-            {{item.name}}
+          <div class="name col-md-8 col-5 mt-5">
+            <div style="font-weight: bold;">{{item.name}}</div>
+          <div style="font-size: 16px; color: #7e98df;">{{item.bio}}</div>
           </div>
         </div>
-        <div style="font-size: 16px;" class="name mt-3">Phone Number</div>
+        <div style="font-size: 16px; font-weight: bold;" class="name mt-3">Phone Number</div>
         <div>{{item.phone}}</div><hr>
         <div id="btnBlue">
           <button class="location">Location</button>
           <button>Image</button>
           <button>Documents</button>
         </div><hr>
-          <GoogleMapMaps :center="{lat: 3.596046803488549, lng: 98.67275547271525}" :zoom="10" class="maps"></GoogleMapMaps>
+          <GoogleMapMaps :center="{lat: 3.596046803488549, lng: 98.67275547271525}" :zoom="10" class="maps">
+            <GoogleMapMarker :position="{lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}"></GoogleMapMarker>
+          </GoogleMapMaps>
       </div>
     </div>
   </div>
@@ -37,7 +40,8 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
-    GoogleMapMaps: VueGoogleMaps.Map
+    GoogleMapMaps: VueGoogleMaps.Map,
+    GoogleMapMarker: VueGoogleMaps.Marker
   },
   data () {
     return {
@@ -98,7 +102,6 @@ export default {
   margin-top: 20px;
 }
 .name{
-  font-weight: bold;
   font-size: 20px;
 }
 .box{

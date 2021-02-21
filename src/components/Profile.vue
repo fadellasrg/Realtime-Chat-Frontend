@@ -6,7 +6,7 @@
             <!--  -->
             <img onclick="document.getElementById('fileImage').click();" class="tagImg" :src="`${serverURL}/images/${item.image}`" />
             <input hidden @input="uploadFile($event)" id="fileImage" type="file"><br>
-            <button class="textBlue btnEdit mt-2" @click="edit(item.id, item.phone, item.username, item.bio, item.email)">Save</button>
+            <button class="textBlue btnEdit mt-2" @click="edit(item.id, item.phone, item.username, item.bio, item.email, item.latitude, item.longitude)">Save</button>
         </div>
         <!--  -->
         <div class="textName text-center mt-3">{{item.name}}</div>
@@ -22,7 +22,9 @@
             <textarea style="border: none; font-weight: bold; width: 100%;" class="mt-2 ml-1" v-model="item.bio"/><br>
             <button @click="edit(item.id, item.phone, item.username, item.bio, item.email, item.latitude, item.longitude)" class="btnEdit greyText mt-1">Bio (tap to change)</button><hr>
         </div>
-        <GoogleMapMaps :center="{lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}" :zoom="10" class="maps"></GoogleMapMaps><hr>
+        <GoogleMapMaps :center="{lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}" :zoom="10" class="maps">
+          <GoogleMapMarker :position="{lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}"></GoogleMapMarker>
+        </GoogleMapMaps><hr>
             <input style="border: none; font-weight: bold; width: 100%;" class="mt-2 ml-1" v-model="item.latitude"/><br>
             <button @click="edit(item.id, item.phone, item.username, item.bio, item.email, item.latitude, item.longitude)" class="btnEdit greyText mt-1">Latitude (tap to change)</button><hr>
             <input style="border: none; font-weight: bold; width: 100%;" class="mt-2 ml-1" v-model="item.longitude"/><br>
@@ -36,7 +38,8 @@ import { mapGetters, mapActions } from 'vuex'
 import * as VueGoogleMaps from 'vue2-google-maps'
 export default {
   components: {
-    GoogleMapMaps: VueGoogleMaps.Map
+    GoogleMapMaps: VueGoogleMaps.Map,
+    GoogleMapMarker: VueGoogleMaps.Marker
   },
   data () {
     return {
