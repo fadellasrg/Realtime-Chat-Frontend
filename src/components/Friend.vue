@@ -1,6 +1,7 @@
 <template>
-  <div class="mt-5 box">
-    <div style="border-radius: 20px;" class="card">
+  <div>
+  <b-sidebar id="sidebar-right" right shadow>
+    <div class="card">
       <div class="card-body" v-for="(item, i) in getDetailFriend" :key="i">
         <div class="row">
           <div class="col-md-1 col-1 mr-2">
@@ -11,10 +12,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-3 col-3 mt-4 mr-2">
+          <div class="col-md-4 col-4 mt-4 mr-2">
             <img class="imgProfile" :src="`${serverURL}/images/${item.image}`" alt="">
           </div>
-          <div class="name col-md-8 col-5 mt-5">
+          <div class="name col-md-7 col-7 mt-5">
             <div style="font-weight: bold;">{{item.name}}</div>
           <div style="font-size: 16px; color: #7e98df;">{{item.bio}}</div>
           </div>
@@ -26,11 +27,12 @@
           <button>Image</button>
           <button>Documents</button>
         </div><hr>
-          <GoogleMapMaps :center="{lat: 3.596046803488549, lng: 98.67275547271525}" :zoom="10" class="maps">
+          <GoogleMapMaps :center="{lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}" :zoom="10" class="maps">
             <GoogleMapMarker :position="{lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)}"></GoogleMapMarker>
           </GoogleMapMaps>
       </div>
     </div>
+  </b-sidebar>
   </div>
 </template>
 
@@ -45,7 +47,7 @@ export default {
   },
   data () {
     return {
-      serverURL: 'http://localhost:4000'
+      serverURL: process.env.VUE_APP_URL
     }
   },
   computed: {
@@ -69,7 +71,6 @@ export default {
 #btnBlue button{
   font-weight: bold;
   border-radius: 15px;
-  margin: 5px;
   padding: 10px;
   border: none;
   background: none
@@ -104,9 +105,9 @@ export default {
 .name{
   font-size: 20px;
 }
-.box{
+/* .box{
   width: 380px;
   position: absolute;
   left: 32%;
-}
+} */
 </style>

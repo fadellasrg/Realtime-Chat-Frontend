@@ -4,7 +4,7 @@ import store from '../store/index'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import Friend from '../views/Friend.vue'
+// import Friend from '../views/Friend.vue'
 
 Vue.use(VueRouter)
 
@@ -21,12 +21,12 @@ const routes = [
     component: Register,
     meta: { auth: false }
   },
-  {
-    path: '/friend',
-    name: 'Friend',
-    component: Friend,
-    meta: { auth: false }
-  },
+  // {
+  //   path: '/friend',
+  //   name: 'Friend',
+  //   component: Friend,
+  //   meta: { auth: false }
+  // },
   {
     path: '/home',
     name: 'Home',

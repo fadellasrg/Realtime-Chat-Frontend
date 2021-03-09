@@ -55,7 +55,7 @@ export default {
           if (response.code === 404 || response.code === 500) {
             alert(response.message)
           } else {
-            this.$router.push('/home')
+            this.$router.push(`/home?id_user=${response.id}`)
           }
         })
         .catch(err => {

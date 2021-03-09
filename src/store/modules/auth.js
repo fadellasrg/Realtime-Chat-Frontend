@@ -11,6 +11,7 @@ const moduleAuth = {
       // id_user: '',
       // name: '',
       detailUser: {},
+      detailProfile: {},
       to_id: '',
       stateUsers: []
     }
@@ -31,6 +32,9 @@ const moduleAuth = {
     setDetail (state, payload) {
       state.detailUser = payload
     },
+    setProfile (state, payload) {
+      state.detailProfile = payload
+    },
     setToId (state, payload) {
       state.to_id = payload
     },
@@ -41,7 +45,7 @@ const moduleAuth = {
   actions: {
     register (context, data) {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4000/api/register', data).then((response) => {
+        axios.post(`${context.rootState.setURL}/api/register`, data).then((response) => {
           resolve(response.data)
         }).catch((err) => {
           reject(err)
@@ -50,7 +54,7 @@ const moduleAuth = {
     },
     login (context, data) {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4000/api/login', data).then((response) => {
+        axios.post(`${context.rootState.setURL}/api/login`, data).then((response) => {
           localStorage.setItem('token', response.data.token)
           localStorage.setItem('room_id', response.data.room_id)
           localStorage.setItem('id_user', response.data.id)
@@ -79,16 +83,23 @@ const moduleAuth = {
       })
     },
     detail (context, id) {
-      axios.get(`http://localhost:4000/api/user/${id}`, { headers: { token: context.rootState.auth.token } }).then((response) => {
+      axios.get(`${context.rootState.setURL}/api/user/${id}`, { headers: { token: context.rootState.auth.token } }).then((response) => {
         context.commit('setDetail', response.data.data)
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    detailProfile (context, id) {
+      axios.get(`${context.rootState.setURL}/api/user/${id}`, { headers: { token: context.rootState.auth.token } }).then((response) => {
+        context.commit('setProfile', response.data.data)
       }).catch((err) => {
         console.log(err)
       })
     },
     update (context, data) {
       return new Promise((resolve, reject) => {
-        axios.patch(`http://localhost:4000/api/user/${data.id}`, data.fd, { headers: { token: context.rootState.auth.token } }).then((response) => {
-          resolve(response.data)
+        axios.patch(`${context.rootState.setURL}/api/user/${data.id}`, data.fd, { headers: { token: context.rootState.auth.token } }).then((response) => {
+          console.log(response.data)
         }).catch((err) => {
           console.log(err)
         })
@@ -98,7 +109,7 @@ const moduleAuth = {
       context.commit('setToId', data)
     },
     listUsers (context) {
-      axios.get('http://localhost:4000/api/users', { headers: { token: context.rootState.auth.token } }).then((response) => {
+      axios.get(`${context.rootState.setURL}/api/users`, { headers: { token: context.rootState.auth.token } }).then((response) => {
         context.commit('setListUsers', response.data.data)
       }).catch((err) => {
         console.log(err)
@@ -120,6 +131,9 @@ const moduleAuth = {
     },
     getDetailUser (state) {
       return state.detailUser
+    },
+    getProfile (state) {
+      return state.detailProfile
     },
     getToId (state) {
       return state.to_id

@@ -148,7 +148,7 @@
             </div>
           </div>
           <div v-else>
-          <div v-for="(item, i) in users" :key="i" @click="getListChat(item.id, item.name, item.image)">
+          <div v-for="(item, i) in users" :key="i" @click="getListChat(item.id, item.name, item.image)" v-b-toggle.sidebar-1>
             <div class="row mt-3 ml-3">
               <div class="col-lg-2 col-md-3 col-sm-4 col-3">
                 <img
@@ -166,21 +166,23 @@
           </div>
         </div>
       </div>
-      <div style="position: relative; background: #FAFAFA;" class="col-md-8 col-sm-7 col-12">
-        <!--  -->
+      <div style="position: relative; background: #FAFAFA;" class="col-md-8 col-sm-7 website">
+        <!-- Header -->
         <div class="row">
           <div class="col-md-12 col-12 p-3" style="background: white;">
             <div class="row">
               <div class="col-lg-1 col-md-2 col-sm-2 col-2">
                 <div v-if="to_image===undefined"></div>
                 <div v-else>
-                <router-link to="/friend">
+                <!-- <router-link to="/friend"> -->
                   <img
+                    v-b-toggle.sidebar-right
                     class="tagImg"
                     :src="`${serverURL}/images/${to_image}`"
                     alt=""
                   />
-                </router-link>
+                  <componentFriend />
+                <!-- </router-link> -->
 
                 </div>
               </div>
@@ -191,23 +193,14 @@
           </div>
         </div>
         <div v-if="chat.length >= 1">
+          <!-- CHAT -->
           <div class="mt-3" v-for="(item, i) in chat" :key="i">
             <div v-if="item.from_name === getUserName" class="text-right">
                   <div class="msgWhite">{{ item.message }}</div>
                   <div class="date mb-2">{{(new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: "2-digit", hour12: false }))}}</div>
-                    <!-- <img
-                    class="imgSmall ml-2 mb-4"
-                    :src="`${serverURL}/images/${item.image}`"
-                    alt=""
-                  /> -->
             </div>
             <div v-else>
               <div class="row">
-                <!-- <img
-                  class="imgSmall mr-3"
-                  :src="`${serverURL}/images/${item.image}`"
-                  alt=""
-                /> -->
                 <div class="message">{{ item.message }}</div><br>
               </div>
                   <div class="date mb-2">{{(new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: "2-digit", hour12: false }))}}</div>
@@ -223,6 +216,60 @@
         <!-- </div> -->
       </div>
     </div>
+    <!-- SIDEBAR CHAT -->
+    <!-- col -->
+  <div>
+    <!-- <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button> -->
+    <!-- mobile -->
+    <b-sidebar id="sidebar-1" shadow width="100%" class="mobile">
+        <div style="position: relative; background: #FAFAFA;" class="col-12 mobile">
+        <!-- Header -->
+        <div class="row">
+          <div class="col-12 p-3" style="background: white;">
+            <div class="row">
+              <div class="col-3">
+                <div v-if="to_image===undefined"></div>
+                <div v-else>
+                  <img
+                    v-b-toggle.sidebar-right
+                    class="tagImg"
+                    :src="`${serverURL}/images/${to_image}`"
+                    alt=""
+                  />
+                  <componentFriend />
+                </div>
+              </div>
+              <div class="col-4 ml-2 uName">
+                <p>{{ to }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="chat.length >= 1">
+          <!-- CHAT -->
+          <div class="mt-3" v-for="(item, i) in chat" :key="i">
+            <div v-if="item.from_name === getUserName" class="text-right">
+                  <div class="msgWhite">{{ item.message }}</div>
+                  <div class="date mb-2">{{(new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: "2-digit", hour12: false }))}}</div>
+            </div>
+            <div v-else>
+              <div class="row">
+                <div class="message">{{ item.message }}</div><br>
+              </div>
+                  <div class="date mb-2">{{(new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: "2-digit", hour12: false }))}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="elseMsg" v-else>Please select a chat and type your message to start messaging</div>
+        <!--  -->
+        <!-- <div v-if="resGetListChat()"> -->
+          <form style="position: fixed; bottom: 0;" @submit.prevent="sendMsg()" class="form-inline">
+            <input v-model="text" type="text" class="inputMsg" placeholder="Type your message...">
+          </form>
+        <!-- </div> -->
+      </div>
+    </b-sidebar>
+  </div>
   </div>
 </template>
 
@@ -230,15 +277,17 @@
 import io from 'socket.io-client'
 import { mapGetters, mapActions } from 'vuex'
 import componentProfile from '../components/Profile'
+import componentFriend from '../components/Friend'
 export default {
   name: 'Home',
   components: {
-    componentProfile
+    componentProfile,
+    componentFriend
   },
   data () {
     return {
-      serverURL: 'http://localhost:4000',
-      socket: io('http://localhost:4000'),
+      serverURL: process.env.VUE_APP_URL,
+      socket: io(process.env.VUE_APP_URL),
       text: '',
       users: [],
       friends: [],
@@ -332,8 +381,6 @@ export default {
     },
     action () {
       this.tampil = !this.tampil
-      // this.getListFriends()
-      // this.resGetListFriend()
     },
     sendBroadcast () {
       const data = {
@@ -351,13 +398,6 @@ export default {
     profile () {
       this.status = !this.status
     }
-    // scrollToElement () {
-    //   const el = this.$el.getElementsByClassName('scroll-to-me')[0]
-    //   if (el) {
-    //   // Use el.scrollIntoView() to instantly scroll to the element
-    //     el.scrollIntoView({ behavior: 'smooth' })
-    //   }
-    // }
   },
   mounted () {
     this.joinRoom()
@@ -374,6 +414,16 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 576px) {
+  .website{
+    display: none;
+  }
+}
+@media (min-width: 577px) {
+  .mobile{
+    display: none;
+  }
+}
 #btnBlue button {
   font-weight: bold;
   border-radius: 15px;
@@ -419,7 +469,7 @@ export default {
 .col-md-6 .icon {
   height: 30px;
   width: 30px;
-  margin-top: 7px;
+  /* margin-top: 7px; */
 }
 .tagImg {
   width: 60px;
@@ -458,7 +508,7 @@ export default {
   margin-right: 10px;
   overflow: hidden;
   display: inline-block;
-  max-width: 200px;
+  max-width: 400px;
 }
 .inputMsg{
   width: 10000px;
