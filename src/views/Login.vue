@@ -1,6 +1,6 @@
 <template>
 <div class="container d-flex justify-content-center p-5 m-5">
-    <div class="card">
+    <div class="col-md-6 col-12 card">
       <div class="text-center mt-5">Login</div>
       <div class="pt-5 pl-5">Hi, Welcome Back</div>
       <form @submit.prevent="onLogin()">
@@ -68,7 +68,7 @@ export default {
 
 <style scoped>
 .card {
-  width: 50%;
+  width: auto;
   box-shadow: 0px 20px 20px rgba(126, 152, 223, 0.05);
   border-radius: 30px;
 }
@@ -90,8 +90,9 @@ input {
 .setLine {
   color: black;
   background: black;
-  width: 81%;
+  width: auto;
   margin-left: 48px;
+  margin-right: 40px;
 }
 .text-right {
   color: #7e98df;

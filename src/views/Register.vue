@@ -1,11 +1,11 @@
 <template>
   <div class="container d-flex justify-content-center p-5 m-5">
-    <div class="card">
+    <div class="col-md-6 col-12 card">
         <div class="row mt-5 text-center">
-            <div class="col-md-2">
+            <div class="col-md-2 col-1">
                 <router-link to="/"><b-icon class="icon" icon="chevron-left" aria-hidden="true"></b-icon></router-link>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 col-8">
                 <div>Register</div>
             </div>
         </div>
@@ -86,7 +86,7 @@ export default {
   height: 20px;
 }
 .card {
-  width: 50%;
+  width: auto;
   box-shadow: 0px 20px 20px rgba(126, 152, 223, 0.05);
   border-radius: 30px;
 }
@@ -107,8 +107,9 @@ input {
 .setLine {
   color: black;
   background: black;
-  width: 81%;
+  width: auto;
   margin-left: 48px;
+  margin-right: 40px;
 }
 .text-right {
   color: #7e98df;
