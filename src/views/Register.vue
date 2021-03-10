@@ -16,15 +16,15 @@
           class="pl-5 pt-3"
           type="text"
           v-model="name"
-          placeholder="Name"
+          placeholder="Name" required
         />
         <hr class="setLine" />
         <div class="pt-4 pl-5 greyText">Email</div>
         <input
           class="pl-5 pt-3"
-          type="text"
+          type="email"
           v-model="email"
-          placeholder="Email"
+          placeholder="Email" required
         />
         <hr class="setLine" />
         <div class="pt-4 pl-5 greyText">Password</div>
@@ -32,7 +32,7 @@
           class="pl-5 pt-3"
           type="password"
           v-model="password"
-          placeholder="Password"
+          placeholder="Password" required
         />
         <hr class="setLine" />
         <div class="text-center pt-5">

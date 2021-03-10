@@ -30,6 +30,17 @@ This is the frontend service for this app. You can see the backend service [here
 
 ---
 ## Interface
+### Login
+![login](https://user-images.githubusercontent.com/50002096/110556318-db453c00-8170-11eb-8626-b990095dd7a4.png)
+
+### Chat
+![chat](https://user-images.githubusercontent.com/50002096/110556338-e4cea400-8170-11eb-8a14-21fef8512a5d.png)
+
+### Edit Profile
+![edit](https://user-images.githubusercontent.com/50002096/110556384-fdd75500-8170-11eb-99cb-043b9e7f7173.png)
+
+### Friend's Profile
+![friends profile](https://user-images.githubusercontent.com/50002096/110556428-0e87cb00-8171-11eb-9c7e-0e74a65cea29.png)
 
 ---
 ## Documentation

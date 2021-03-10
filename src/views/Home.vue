@@ -493,7 +493,7 @@ export default {
   padding-right: 30px;
   margin-left: 10px;
   overflow: hidden;
-  max-width: 200px;
+  max-width: 400px;
 }
 .date{
   color: #7e98df;
