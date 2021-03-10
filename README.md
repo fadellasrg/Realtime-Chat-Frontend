@@ -44,5 +44,5 @@ This is the frontend service for this app. You can see the backend service [here
 
 ---
 ## Documentation
-- [Deploy]
+- [Deploy](https://bit.ly/Realtime-Chat)
 - [Backend](https://github.com/fadellasrg/Realtime-Chat-Backend)
