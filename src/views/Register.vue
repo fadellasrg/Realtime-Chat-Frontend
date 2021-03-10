@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-content-center p-5 m-5">
+  <div class="container d-flex justify-content-center py-5">
     <div class="col-md-6 col-12 card">
         <div class="row mt-5 text-center">
             <div class="col-md-2 col-1">
@@ -35,7 +35,7 @@
           placeholder="Password" required
         />
         <hr class="setLine" />
-        <div class="text-center pt-5">
+        <div class="text-center py-5">
           <button class="btnLogin">Register</button>
         </div>
       </form>

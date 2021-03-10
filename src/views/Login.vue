@@ -1,6 +1,6 @@
 <template>
-<div class="container d-flex justify-content-center p-5 m-5">
-    <div class="col-md-6 col-12 card">
+<div class="container d-flex justify-content-center py-5">
+    <div class="col-md-6 col-sm-6 col-12 card">
       <div class="text-center mt-5">Login</div>
       <div class="pt-5 pl-5">Hi, Welcome Back</div>
       <form @submit.prevent="onLogin()">
