@@ -319,7 +319,8 @@ export default {
     ...mapActions({
       actionLogout: 'auth/logout',
       actionToId: 'auth/friendDetail',
-      actionUser: 'auth/listUsers'
+      actionUser: 'auth/listUsers',
+      actionDetail: 'auth/detail'
     }),
     onLogout () {
       this.actionLogout().then(response => {
@@ -349,6 +350,7 @@ export default {
         room_id: this.getRoom
       })
       this.actionToId(idTo)
+      this.actionDetail(idTo)
     },
     resGetListChat () {
       this.socket.on('res-get-list-chat', chat => {
