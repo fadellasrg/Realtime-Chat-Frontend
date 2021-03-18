@@ -5,7 +5,7 @@
       <div class="card-body" v-for="(item, i) in getDetailFriend" :key="i">
         <div class="row">
           <div class="col-md-1 col-1 mr-2">
-              <router-link to="/home"><b-icon class="icon" icon="chevron-left" aria-hidden="true"></b-icon></router-link>
+              <router-link :to="`/home?id_user=${idUser}`"><b-icon class="icon" icon="chevron-left" aria-hidden="true"></b-icon></router-link>
           </div>
           <div class="col-md-8 col-8 uName">
             @{{item.username}}
@@ -47,7 +47,8 @@ export default {
   },
   data () {
     return {
-      serverURL: process.env.VUE_APP_URL
+      serverURL: process.env.VUE_APP_URL,
+      idUser: this.$route.query.id_user
     }
   },
   computed: {

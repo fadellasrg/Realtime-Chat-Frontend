@@ -86,7 +86,7 @@
           <form class="form-inline mt-5 ml-4">
             <b-icon
               @click="action()"
-              style="color: #848484;"
+              style="color: #848484; cursor: pointer;"
               class="icon iconSearch"
               icon="search"
               aria-hidden="true"
@@ -101,6 +101,7 @@
             <!-- <button class="btnIcon"> -->
               <b-icon
                 @click="addFriend()"
+                style="cursor: pointer;"
                 class="icon blueText iconPlus"
                 icon="plus"
                 aria-hidden="true"
@@ -369,7 +370,7 @@ export default {
         id_friend: this.to_id
       }
       this.socket.emit('add-friend', data)
-      this.$router.go('/home')
+      this.$router.go(`/home?id_user=${this.getIdUser}`)
     },
     getListFriends () {
       this.socket.emit('get-list-friends', this.getIdUser, this.getRoom)
